@@ -1,13 +1,18 @@
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location?.state || '/'
+  console.log(from)
+const { signIn, signInWithGoogle} =useContext(AuthContext);
 
-    const { createUser, signInWithGoogle} =useContext(AuthContext)
-      const handleGoogleLogin = async () => {
-       
+    
+      const handleGoogleLogin = async () => {      
         try {
             const result = await signInWithGoogle();
             console.log("Google Login Successful:", result.user);
@@ -25,11 +30,17 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
-        createUser(email, password)
+        signIn({email, password})
 
-        .then(result=>{
-            console.log(result.user)
-        })
+        try {
+          //User Login
+          await signIn(email, pass)
+          toast.success('Signin Successful')
+          navigate(from, { replace: true })
+        } catch (err) {
+          console.log(err)
+          toast.error(err?.message)
+        }
 
     }
     return (
@@ -68,9 +79,9 @@ const Login = () => {
              </button>
             <p>
               Don't have an account?{' '}
-              <a href="/register" className="text-blue-500 hover:underline">
+              <Link to="/register" className="text-blue-500 hover:underline">
                 Register here
-              </a>
+              </Link>
             </p>
           </div>
             </form>
