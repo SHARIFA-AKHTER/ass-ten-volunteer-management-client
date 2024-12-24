@@ -1,9 +1,15 @@
 import React from 'react';
+import BannerSlider from '../components/BannerSlider';
+import VolunteerNeedsNow from '../components/VolunteerNeedsNow';
+import VolunteerNeedPostDetails from './VolunteerNeedPostDetails';
+import ManageMyPosts from './ManageMyPosts';
 
 const Home = () => {
     return (
         <div>
-            <h2 className="text-3xl">This is Home</h2>
+            <BannerSlider></BannerSlider>
+            <VolunteerNeedsNow></VolunteerNeedsNow>
+           
         </div>
     );
 };

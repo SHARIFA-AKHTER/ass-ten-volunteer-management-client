@@ -19,14 +19,14 @@ const Navbar = () => {
             <Link to='/'>Home</Link>
           </li>
           <li>
-            <Link to='/all-posts'> All Volunteer Need Posts</Link>
+            <Link to='/all-volunteer-posts'> All Volunteer Need Posts</Link>
           </li>
 
           {!user && (
             <li>
               <Link to='/login'>Login</Link>
             </li>
-          )}
+           )} 
         </ul>
 
         {user && (
@@ -70,7 +70,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-        )}
+         )}
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import AddVolunteerPost from './../Pages/AddVolunteerPost';
+import AllVolunteerPosts from './../components/AllVolunteerPosts';
+import VolunteerNeedPostDetails from './../Pages/VolunteerNeedPostDetails';
 
   const router = createBrowserRouter([
     {
@@ -17,13 +20,27 @@ import Register from "../Pages/Register/Register";
             element: <Home></Home>
         },
         {
-            path:'login',
+            path:'/login',
             element:<Login></Login>
         },
         {
-            path:'register',
+            path:'/register',
             element:<Register></Register>
-        }
+        },
+      
+        {
+          path:'/add-post',
+          element:<AddVolunteerPost></AddVolunteerPost>
+         },
+         {
+          path:'/all-volunteer-posts',
+          element:<AllVolunteerPosts></AllVolunteerPosts>,
+         },
+      {
+        path:'/volunteer-needs-now/:id',
+        element:<VolunteerNeedPostDetails></VolunteerNeedPostDetails>
+       },
+
       ]
     },
   ]);
