@@ -11,7 +11,7 @@ const VolunteerNeedsNowCard = ({ post }) => {
         <img
           src={thumbnail}
           alt="volunteer"
-          className="rounded-t-lg object-cover w-full h-48"  // Ensuring the image is properly styled
+          className="rounded-t-lg object-cover w-full h-48"  
         />
       </figure>
       <div className="card-body p-4">

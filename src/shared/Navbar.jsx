@@ -54,8 +54,9 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to='/manage-posts'> Manage My Posts</Link>
+                <Link to='/manage-posts'> Manage My Post</Link>
               </li>
+              
               <li>
                 <Link to='/my-profile'>My Profile</Link>
               </li>

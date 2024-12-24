@@ -8,6 +8,7 @@ import Register from "../Pages/Register/Register";
 import AddVolunteerPost from './../Pages/AddVolunteerPost';
 import AllVolunteerPosts from './../components/AllVolunteerPosts';
 import VolunteerNeedPostDetails from './../Pages/VolunteerNeedPostDetails';
+import PrivateRoute from './PrivateRoute';
 
   const router = createBrowserRouter([
     {
@@ -40,6 +41,7 @@ import VolunteerNeedPostDetails from './../Pages/VolunteerNeedPostDetails';
         path:'/volunteer-needs-now/:id',
         element:<VolunteerNeedPostDetails></VolunteerNeedPostDetails>
        },
+       
 
       ]
     },
