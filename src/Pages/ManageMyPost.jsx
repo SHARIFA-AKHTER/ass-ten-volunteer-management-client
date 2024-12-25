@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';  // Import SweetAlert2
 
 const ManageMyPost = () => {
-  const [posts, setPosts] = useState([]); // State to store posts
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [posts, setPosts] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const navigate = useNavigate();
 
   // Fetch posts when the component mounts
   useEffect(() => {
@@ -15,12 +18,12 @@ const ManageMyPost = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched data:', data); // Debugging fetched data
+        console.log('Fetched data:', data); 
         setPosts(data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error); // Debugging error
+        console.error('Error fetching data:', error); 
         setError(error);
         setLoading(false);
       });
@@ -33,23 +36,38 @@ const ManageMyPost = () => {
   };
 
   const handleDelete = (postId) => {
-    // Logic to delete the post
-    fetch(`http://localhost:9000/volunteer-needs/${postId}`, {
-      method: 'DELETE',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to delete the post');
-        }
-        return response.json();
-      })
-      .then(() => {
-        // After successful deletion, update the posts list
-        setPosts(posts.filter((post) => post._id !== postId));
-      })
-      .catch((error) => {
-        console.error('Error deleting post:', error);
-      });
+    // Show confirmation before deleting
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this post!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed with deletion if confirmed
+        fetch(`http://localhost:9000/volunteer-needs/${postId}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to delete the post');
+            }
+            return response.json();
+          })
+          .then(() => {
+            // After successful deletion, update the posts list
+            setPosts(posts.filter((post) => post._id !== postId));
+            Swal.fire('Deleted!', 'Your post has been deleted.', 'success'); // Success message
+          })
+          .catch((error) => {
+            console.error('Error deleting post:', error);
+            Swal.fire('Error!', 'Failed to delete the post. Please try again.', 'error'); // Error message
+          });
+      }
+    });
   };
 
   // If loading, show a loading spinner or message
@@ -86,7 +104,10 @@ const ManageMyPost = () => {
               <td>{post.category}</td>
               <td>{post.location}</td>
               <td> 
-                <button onClick={() => handleUpdate(post._id)} className="btn btn-primary">
+                <button
+                  className="btn btn-primary mr-2"
+                  onClick={() => navigate(`/update-post/${post._id}`)}
+                >
                   Update
                 </button>
                 <button onClick={() => handleDelete(post._id)} className="btn btn-danger">

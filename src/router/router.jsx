@@ -12,13 +12,15 @@ import PrivateRoute from './PrivateRoute';
 import BeAVolunteerModal from "../Pages/BeAVolunteerModal";
 import ManagePosts from "../Pages/ManagePosts";
 import ManageMyPost from "../Pages/ManageMyPost";
+import UpdatePost from "../Pages/UpdatePost";
+import NotFound from "../components/NotFound";
 
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout></MainLayout>,
-      errorElement:<h2>Page Not Found</h2>,
+      errorElement:<NotFound></NotFound>,
       children:[
         {
             path:"/",
@@ -57,6 +59,10 @@ import ManageMyPost from "../Pages/ManageMyPost";
        {
         path:'/manage-posts',
         element:<PrivateRoute><ManageMyPost></ManageMyPost></PrivateRoute>
+       },
+       {
+        path:'/update-post/:id',
+        element:<PrivateRoute><UpdatePost></UpdatePost></PrivateRoute>
        }
       
       ]
