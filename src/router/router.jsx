@@ -9,6 +9,10 @@ import AddVolunteerPost from './../Pages/AddVolunteerPost';
 import AllVolunteerPosts from './../components/AllVolunteerPosts';
 import VolunteerNeedPostDetails from './../Pages/VolunteerNeedPostDetails';
 import PrivateRoute from './PrivateRoute';
+import BeAVolunteerModal from "../Pages/BeAVolunteerModal";
+import ManagePosts from "../Pages/ManagePosts";
+import ManageMyPost from "../Pages/ManageMyPost";
+
 
   const router = createBrowserRouter([
     {
@@ -35,14 +39,26 @@ import PrivateRoute from './PrivateRoute';
          },
          {
           path:'/all-volunteer-posts',
-          element:<AllVolunteerPosts></AllVolunteerPosts>,
+          element:<PrivateRoute><AllVolunteerPosts></AllVolunteerPosts></PrivateRoute>,
          },
       {
         path:'/volunteer-needs-now/:id',
-        element:<VolunteerNeedPostDetails></VolunteerNeedPostDetails>
-       },
+        element:<PrivateRoute><VolunteerNeedPostDetails></VolunteerNeedPostDetails></PrivateRoute>,
        
-
+       },
+       {
+        path:'/volunteer-request',
+        element:<BeAVolunteerModal></BeAVolunteerModal>
+       },
+      //  {
+      //   path:'/manage-posts',
+      //   element:<PrivateRoute><ManagePosts></ManagePosts></PrivateRoute>
+      //  }
+       {
+        path:'/manage-posts',
+        element:<PrivateRoute><ManageMyPost></ManageMyPost></PrivateRoute>
+       }
+      
       ]
     },
   ]);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const AllVolunteerPosts = () => {
+
   const [posts, setAllPosts] = useState([]);
 
   useEffect(() => {

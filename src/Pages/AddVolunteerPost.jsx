@@ -1,11 +1,13 @@
 
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
-import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const AddVolunteerPost = () => {
   const { user } = useContext(AuthContext); 
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     thumbnail: '',
     title: '',
@@ -14,8 +16,9 @@ const AddVolunteerPost = () => {
     location: '',
     volunteersNeeded: '',
     deadline: new Date(),
+   
   });
-
+  console.log(formData)
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -33,13 +36,13 @@ const AddVolunteerPost = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:9000/volunteer-needs-now`, {
+      const response = await fetch(`http://localhost:9000/volunteer-needs-application`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData),
       });
       if (response.ok) {
-        toast.success('Volunteer post added successfully!');
+        Swal.fire('Success!', 'Volunteer post added successfully!', 'success');
         setFormData({
           thumbnail: '',
           title: '',
@@ -48,13 +51,16 @@ const AddVolunteerPost = () => {
           location: '',
           volunteersNeeded: '',
           deadline: new Date(),
-        });
+        });  
+        
+        navigate('/volunteer-request')
+       
       } else {
-        toast.error('Failed to add volunteer post.');
+        Swal.fire('Error!', 'Failed to add volunteer post.', 'error');
       }
     } catch (error) {
       console.error(error);
-      toast.error('Something went wrong!');
+      Swal.fire('Error!', 'Something went wrong!', 'error');
     }
   };
 

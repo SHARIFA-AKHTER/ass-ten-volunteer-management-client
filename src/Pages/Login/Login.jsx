@@ -34,7 +34,7 @@ const { signIn, signInWithGoogle} =useContext(AuthContext);
 
         try {
           //User Login
-          await signIn(email, pass)
+          await signIn(email, password)
           toast.success('Signin Successful')
           navigate(from, { replace: true })
         } catch (err) {

@@ -1,81 +1,131 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
 
-const BeAVolunteerModal = ({ post, user, closeModal }) => {
-  const [suggestion, setSuggestion] = useState("");
+import React from 'react';
 
-  const handleRequest = async () => {
-    const volunteerData = {
-      postId: post._id,
-      thumbnail: post.thumbnail,
-      postTitle: post.postTitle,
-      description: post.description,
-      category: post.category,
-      location: post.location,
-      deadline: post.deadline,
-      organizerName: post.organizerName,
-      organizerEmail: post.organizerEmail,
-      volunteerName: user.name,
-      volunteerEmail: user.email,
-      suggestion,
-      status: "requested",
-    };
+import { Link } from "react-router-dom";
 
-    try {
-      const response = await fetch("http://localhost:5000/volunteer-requests", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(volunteerData),
+const BeAVolunteerModal = ({ closeModal, post, user }) => {
+  // Destructure post fields
+  const {
+    thumbnail,
+    post_title,
+    description,
+    category,
+    location,
+    volunteersNeeded,
+    deadline,
+    organizerName,
+    organizerEmail,
+  } = post || {};
+
+  // Destructure user fields
+  const { name, email } = user || {};
+
+  // Prepare requestData object for submission
+  const requestData = {
+    thumbnail,
+    postTitle: post_title,
+    description,
+    category,
+    location,
+    volunteersNeeded,
+    // deadline: new Date(deadline).toISOString(), 
+    organizer: {
+      name: organizerName,
+      email: organizerEmail,
+    },
+    volunteer: {
+      name,
+      email,
+    },
+  };
+
+  // Handle Submit
+  const handleSubmit = () => {
+    fetch('http://localhost:9000/volunteer-needs-application/${post._id}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Request successful:', data);
+        closeModal(); // Close the modal on success
+      })
+      .catch((error) => {
+        console.error('Request failed:', error);
       });
-
-      if (response.ok) {
-        // Decrement the volunteersNeeded count
-        await fetch(`http://localhost:5000/volunteer/${post._id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ $inc: { volunteersNeeded: -1 } }),
-        });
-
-        toast.success("Request submitted successfully!");
-        closeModal();
-      } else {
-        throw new Error("Failed to submit the request");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred. Please try again.");
-    }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-        <h2 className="text-xl font-bold mb-4">Be a Volunteer</h2>
-        <div className="mb-4">
-          <p><strong>Post Title:</strong> {post.postTitle}</p>
-          <p><strong>Category:</strong> {post.category}</p>
-          <p><strong>Location:</strong> {post.location}</p>
-          <p><strong>Deadline:</strong> {new Date(post.deadline).toLocaleDateString()}</p>
-          <p><strong>Organizer:</strong> {post.organizerName} ({post.organizerEmail})</p>
+    <div className="modal modal-open">
+      <div className="modal-box">
+        <h3 className="text-lg font-bold">Be a Volunteer</h3>
+
+        {/* Volunteer Post Details */}
+        <div className="grid gap-4 mb-6">
+          <p>
+            <strong>Thumbnail:</strong> <img src={thumbnail} alt={post_title} className="w-full rounded" />
+          </p>
+          <p><strong>Post Title:</strong> {post_title}</p>
+          <p><strong>Description:</strong> {description}</p>
+          <p><strong>Category:</strong> {category}</p>
+          <p><strong>Location:</strong> {location}</p>
+          <p><strong>Volunteers Needed:</strong> {volunteersNeeded}</p>
+          <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
+          <p>
+            <strong>Organizer:</strong> {organizerName} ({organizerEmail})
+          </p>
+
+          <p><strong>Volunteer Name:</strong> {name || "N/A"}</p>
+          <p><strong>Volunteer Email:</strong> {email || "N/A"}</p>
         </div>
-        <textarea
-          value={suggestion}
-          onChange={(e) => setSuggestion(e.target.value)}
-          placeholder="Your suggestions (optional)"
-          className="w-full p-2 border rounded mb-4"
-        />
-        <button
-          onClick={handleRequest}
-          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-        >
-          Request
-        </button>
-        <button
-          onClick={closeModal}
-          className="bg-gray-300 px-4 py-2 rounded"
-        >
-          Cancel
-        </button>
+
+        {/* Table Section */}
+        <div className="overflow-x-auto mb-6">
+          <table className="table">
+            {/* Table Head */}
+            <thead>
+              <tr>
+                <th>
+                  <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label>
+                </th>
+                <th>Thumbnail</th>
+                <th>Category</th>
+                <th>Volunteer Email</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            {/* Table Body */}
+            <tbody>
+              <tr>
+                <td>
+                  <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label>
+                </td>
+                <td>{thumbnail || "N/A"}</td>
+                <td>{category || "N/A"}</td>
+                <td>{email || "N/A"}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+         {/* Buttons Section */}
+         <div className="flex justify-end gap-4">
+          <Link to="/add-post" className="btn btn-ghost" onClick={closeModal}>
+            Cancel
+          </Link>
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            Request
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -83,3 +133,120 @@ const BeAVolunteerModal = ({ post, user, closeModal }) => {
 
 export default BeAVolunteerModal;
 
+
+// const BeAVolunteerModal = ({ closeModal, post, user }) => {
+//   // Destructure post fields
+//   const {
+//     thumbnail,
+//     post_title,
+//     description,
+//     category,
+//     location,
+//     volunteersNeeded,
+//     deadline,
+//     organizerName,
+//     organizerEmail,
+//   } = post || {};
+
+//   // Destructure user fields
+//   const { name, email } = user || {};
+
+//   // Prepare requestData object for submission
+//   const requestData = {
+//     thumbnail,
+//     postTitle: post_title,
+//     description,
+//     category,
+//     location,
+//     volunteersNeeded,
+//     organizer: {
+//       name: organizerName,
+//       email: organizerEmail,
+//     },
+//     volunteer: {
+//       name,
+//       email,
+//     },
+//   };
+
+//   // Handle Submit
+//   const handleSubmit = () => {
+//     fetch(`http://localhost:9000/volunteer-needs-application/${post._id}`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(requestData),
+//     })
+//       .then((response) => response.json())
+//       .then((data) => {
+//         console.log('Request successful:', data);
+//         closeModal(); // Close the modal on success
+//       })
+//       .catch((error) => {
+//         console.error('Request failed:', error);
+//       });
+//   };
+
+//   return (
+//     <div className="modal modal-open">
+//       <div className="modal-box">
+//         <h3 className="text-lg font-bold">Be a Volunteer</h3>
+
+//         {/* Volunteer Post Details */}
+//         <div className="grid gap-4 mb-6">
+//           <img src={thumbnail} alt={post_title} className="w-full rounded mb-4" />
+//           <p><strong>Post Title:</strong> {post_title}</p>
+//           <p><strong>Description:</strong> {description}</p>
+//           <p><strong>Category:</strong> {category}</p>
+//           <p><strong>Location:</strong> {location}</p>
+//           <p><strong>Volunteers Needed:</strong> {volunteersNeeded}</p>
+//           <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
+//           <p>
+//             <strong>Organizer:</strong> {organizerName} ({organizerEmail})
+//           </p>
+//           <p><strong>Volunteer Name:</strong> {name || "N/A"}</p>
+//           <p><strong>Volunteer Email:</strong> {email || "N/A"}</p>
+//         </div>
+
+//         {/* Volunteer Table Section */}
+//         <div className="overflow-x-auto mb-6">
+//           <table className="table w-full">
+//             {/* Table Head */}
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>Thumbnail</th>
+//                 <th>Category</th>
+//                 <th>Volunteer Email</th>
+//               </tr>
+//             </thead>
+//             {/* Table Body */}
+//             <tbody>
+//               <tr>
+//                 <td>1</td>
+//                 <td>
+//                   <img src={thumbnail} alt="Volunteer Thumbnail" className="w-12 h-12 rounded" />
+//                 </td>
+//                 <td>{category || "N/A"}</td>
+//                 <td>{email || "N/A"}</td>
+//               </tr>
+//             </tbody>
+//           </table>
+//         </div>
+
+//         {/* Buttons Section */}
+//         <div className="flex justify-end gap-4">
+//           <Link to="/add-post" className="btn btn-ghost" onClick={closeModal}>
+//             Cancel
+//           </Link>
+//           <button className="btn btn-primary" onClick={handleSubmit}>
+//             Request
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default BeAVolunteerModal;
