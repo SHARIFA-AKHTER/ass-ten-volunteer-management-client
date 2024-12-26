@@ -3,6 +3,8 @@ import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -15,7 +17,7 @@ const Register = () => {
     const name = form.name.value;
     const email = form.email.value;
     const photoURL =
-      form.photoURL.value || "https://i.ibb.co.com/1dr4h4P/logo-volumnteer.png";
+      form.photoURL.value ;
     const password = form.password.value;
 
     // Password Validation
@@ -38,22 +40,34 @@ const Register = () => {
           displayName: name,
           photoURL: photoURL,
         });
-        toast.success("Registration successful! Welcome, " + name);
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful!",
+          text: `Welcome, ${name}!`,
+        });
         form.reset();
       } catch (updateError) {
-        toast.warn("User registered, but profile update failed.");
+        Swal.fire({
+          icon: "warning",
+          title: "Profile Update Failed",
+          text: "User registered, but profile update failed.",
+        });
       }
 
-      setError(""); // Clear error on success
+      setError(""); 
     } catch (registerError) {
       setError(registerError.message);
-      toast.error("Failed to register. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: registerError.message,
+      });
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4">
-      <div className="w-full max-w-xl bg-base-100 shadow-lg rounded-lg">
+    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4 sm:px-8 md:px-12">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-base-100 shadow-lg rounded-lg">
         <h1 className="text-3xl lg:text-4xl font-bold text-center mt-6">
           Register Now!
         </h1>

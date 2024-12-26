@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -15,10 +15,24 @@ const Login = () => {
     try {
       const result = await signInWithGoogle();
       console.log("Google Login Successful:", result.user);
-      toast.success("Logged in with Google!");
+
+      // SweetAlert2 success notification
+      Swal.fire({
+        icon: "success",
+        title: "Logged in with Google!",
+        text: "You have successfully logged in.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate(from, { replace: true });
     } catch (error) {
-      toast.error("Google login failed");
+      // SweetAlert2 error notification
+      Swal.fire({
+        icon: "error",
+        title: "Google login failed",
+        text: "Something went wrong. Please try again.",
+      });
       console.error(error);
     }
   };
@@ -33,19 +47,32 @@ const Login = () => {
     try {
       // User Login
       await signIn(email, password);
-      toast.success("Signin Successful");
+
+      // SweetAlert2 success notification
+      Swal.fire({
+        icon: "success",
+        title: "Signin Successful",
+        text: "You have successfully logged in.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
-      toast.error(err?.message);
+
+      // SweetAlert2 error notification
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err?.message || "Something went wrong. Please try again.",
+      });
     }
   };
 
   return (
     <div className="hero bg-base-200 min-h-screen flex items-center justify-center">
       <div className="hero-content flex-col lg:flex-row lg:gap-10 w-full max-w-4xl">
-      
-
         {/* Login Card */}
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <h1 className="text-center mt-6 text-3xl font-bold text-primary">

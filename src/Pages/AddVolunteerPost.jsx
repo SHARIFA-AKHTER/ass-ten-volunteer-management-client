@@ -65,115 +65,128 @@ const AddVolunteerPost = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Add Volunteer Need Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Thumbnail URL</label>
-          <input
-            type="text"
-            name="thumbnail"
-            value={formData.thumbnail}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Post Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Category</label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          >
-            <option value="">Select a category</option>
-            <option value="Healthcare">Healthcare</option>
-            <option value="Education">Education</option>
-            <option value="Social Service">Social Service</option>
-            <option value="Animal Welfare">Animal Welfare</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">No. of Volunteers Needed</label>
-          <input
-            type="number"
-            name="volunteersNeeded"
-            value={formData.volunteersNeeded}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Deadline</label>
-          <DatePicker
-            selected={formData.deadline}
-            onChange={handleDateChange}
-            dateFormat="yyyy-MM-dd"
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Organizer Name</label>
-          <input
-            type="text"
-            value={user.name}
-            readOnly
-            className="w-full p-2 border rounded bg-gray-100"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Organizer Email</label>
-          <input
-            type="email"
-            value={user.email}
-            readOnly
-            className="w-full p-2 border rounded bg-gray-100"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Add Post
-        </button>
-      </form>
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-lg rounded-lg">
+  <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 text-center sm:text-left">
+    Add Volunteer Need Post
+  </h2>
+  <form onSubmit={handleSubmit}>
+    {/* Thumbnail URL */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Thumbnail URL</label>
+      <input
+        type="text"
+        name="thumbnail"
+        value={formData.thumbnail}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      />
     </div>
+    {/* Post Title */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Post Title</label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      />
+    </div>
+    {/* Description */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Description</label>
+      <textarea
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+    {/* Category */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Category</label>
+      <select
+        name="category"
+        value={formData.category}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      >
+        <option value="">Select a category</option>
+        <option value="Healthcare">Healthcare</option>
+        <option value="Education">Education</option>
+        <option value="Social Service">Social Service</option>
+        <option value="Animal Welfare">Animal Welfare</option>
+      </select>
+    </div>
+    {/* Location */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Location</label>
+      <input
+        type="text"
+        name="location"
+        value={formData.location}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      />
+    </div>
+    {/* No. of Volunteers Needed */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">No. of Volunteers Needed</label>
+      <input
+        type="number"
+        name="volunteersNeeded"
+        value={formData.volunteersNeeded}
+        onChange={handleChange}
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      />
+    </div>
+    {/* Deadline */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Deadline</label>
+      <DatePicker
+        selected={formData.deadline}
+        onChange={handleDateChange}
+        dateFormat="yyyy-MM-dd"
+        className="w-full p-2 sm:p-3 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+        required
+      />
+    </div>
+    {/* Organizer Name */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Organizer Name</label>
+      <input
+        type="text"
+        value={user.name}
+        readOnly
+        className="w-full p-2 sm:p-3 border rounded bg-gray-100"
+      />
+    </div>
+    {/* Organizer Email */}
+    <div className="mb-4">
+      <label className="block text-sm lg:text-base font-medium">Organizer Email</label>
+      <input
+        type="email"
+        value={user.email}
+        readOnly
+        className="w-full p-2 sm:p-3 border rounded bg-gray-100"
+      />
+    </div>
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full bg-blue-500 text-white py-2 sm:py-3 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+    >
+      Add Post
+    </button>
+  </form>
+</div>
   );
 };
 

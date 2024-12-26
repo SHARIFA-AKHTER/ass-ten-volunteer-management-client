@@ -18,7 +18,7 @@ const BeVolunteerModal = ({ closeModal, post, user }) => {
     const suggestion = e.target.suggestion.value;
 
     const volunteerData = {
-      postId: post.id, // Ensure this comes from the post object
+      postId: post.id, 
       volunteerName: user?.name || "Logged-in User Name", // Replace with actual user data
       volunteerEmail: user?.email || "Logged-in User Email", // Replace with actual user data
       suggestion,

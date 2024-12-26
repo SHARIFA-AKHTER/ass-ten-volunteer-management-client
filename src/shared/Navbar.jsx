@@ -209,11 +209,7 @@ const Navbar = () => {
                     Manage My Posts
                   </Link>
                 </li>
-                <li>
-                  <Link to="/my-profile" onClick={() => setIsMenuOpen(false)}>
-                    My Profile
-                  </Link>
-                </li>
+                
                 <li>
                   <button
                     onClick={() => {
