@@ -1,4 +1,3 @@
-
 import { useContext, useState, useEffect } from "react";
 import AuthContext from "../context/AuthContext";
 import logo from "../../../volunteer-management-client/src/assets/images/logo-volumnteer.png";
@@ -7,7 +6,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Check if dark mode is enabled in localStorage
   useEffect(() => {
@@ -119,6 +118,44 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Dark Mode Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="text-lg p-2 rounded-full hover:bg-gray-200"
+        >
+          {isDarkMode ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-yellow-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M4.636 4.636l-.707.707M16.95 16.95l-.707-.707M7.05 7.05l-.707-.707"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M4.636 4.636l-.707.707M16.95 16.95l-.707-.707M7.05 7.05l-.707-.707"
+              />
+            </svg>
+          )}
+        </button>
+
         {/* Mobile Menu Toggle */}
         <button
           className="lg:hidden flex items-center"
@@ -209,7 +246,7 @@ const Navbar = () => {
                     Manage My Posts
                   </Link>
                 </li>
-                
+
                 <li>
                   <button
                     onClick={() => {
