@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // For mobile menu toggle
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
 
   // Check if dark mode is enabled in localStorage
   useEffect(() => {

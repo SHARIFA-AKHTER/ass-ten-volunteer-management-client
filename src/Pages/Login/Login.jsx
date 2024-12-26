@@ -75,7 +75,7 @@ const Login = () => {
       <div className="hero-content flex-col lg:flex-row lg:gap-10 w-full max-w-4xl">
         {/* Login Card */}
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <h1 className="text-center mt-6 text-3xl font-bold text-primary">
+          <h1 className="text-center mt-6 md:text-3xl font-bold text-primary">
             Login Now!
           </h1>
           <form onSubmit={handleLogin} className="card-body">
@@ -123,7 +123,7 @@ const Login = () => {
               >
                 Login with Google
               </button>
-              <p className="mt-2">
+              <p className="mt-2 text-sm md:text-base">
                 Don't have an account?{" "}
                 <Link to="/register" className="text-blue-500 hover:underline">
                   Register here
