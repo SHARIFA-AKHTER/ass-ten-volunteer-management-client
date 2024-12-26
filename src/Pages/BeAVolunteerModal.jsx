@@ -1,13 +1,8 @@
 
-import React from 'react';
-
-import { Link } from "react-router-dom";
-
-const BeAVolunteerModal = ({ closeModal, post, user }) => {
-  // Destructure post fields
+const BeVolunteerModal = ({ closeModal, post, user }) => {
   const {
     thumbnail,
-    post_title,
+    title,
     description,
     category,
     location,
@@ -15,238 +10,154 @@ const BeAVolunteerModal = ({ closeModal, post, user }) => {
     deadline,
     organizerName,
     organizerEmail,
-  } = post || {};
+  } = post;
 
-  // Destructure user fields
-  const { name, email } = user || {};
+  const handleVolunteerSubmit = (e) => {
+    e.preventDefault();
 
-  // Prepare requestData object for submission
-  const requestData = {
-    thumbnail,
-    postTitle: post_title,
-    description,
-    category,
-    location,
-    volunteersNeeded,
-    // deadline: new Date(deadline).toISOString(), 
-    organizer: {
-      name: organizerName,
-      email: organizerEmail,
-    },
-    volunteer: {
-      name,
-      email,
-    },
-  };
+    const suggestion = e.target.suggestion.value;
 
-  // Handle Submit
-  const handleSubmit = () => {
-    fetch('http://localhost:9000/volunteer-needs-application/${post._id}', {
-      method: 'POST',
+    const volunteerData = {
+      postId: post.id, // Ensure this comes from the post object
+      volunteerName: user?.name || "Logged-in User Name", // Replace with actual user data
+      volunteerEmail: user?.email || "Logged-in User Email", // Replace with actual user data
+      suggestion,
+      status: "Requested",
+    };
+
+    // Save the volunteer request to the database
+    fetch(`http://localhost:9000/volunteer-needs-application/${post._id}`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestData),
+      body: JSON.stringify(volunteerData),
     })
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        console.log('Request successful:', data);
-        closeModal(); // Close the modal on success
-      })
-      .catch((error) => {
-        console.error('Request failed:', error);
+        alert("Your volunteer request has been submitted!");
+        closeModal();
       });
   };
 
   return (
-    <div className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="text-lg font-bold">Be a Volunteer</h3>
-
-        {/* Volunteer Post Details */}
-        <div className="grid gap-4 mb-6">
-          <p>
-            <strong>Thumbnail:</strong> <img src={thumbnail} alt={post_title} className="w-full rounded" />
-          </p>
-          <p><strong>Post Title:</strong> {post_title}</p>
-          <p><strong>Description:</strong> {description}</p>
-          <p><strong>Category:</strong> {category}</p>
-          <p><strong>Location:</strong> {location}</p>
-          <p><strong>Volunteers Needed:</strong> {volunteersNeeded}</p>
-          <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
-          <p>
-            <strong>Organizer:</strong> {organizerName} ({organizerEmail})
-          </p>
-
-          <p><strong>Volunteer Name:</strong> {name || "N/A"}</p>
-          <p><strong>Volunteer Email:</strong> {email || "N/A"}</p>
-        </div>
-
-        {/* Table Section */}
-        <div className="overflow-x-auto mb-6">
-          <table className="table">
-            {/* Table Head */}
-            <thead>
-              <tr>
-                <th>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </th>
-                <th>Thumbnail</th>
-                <th>Category</th>
-                <th>Volunteer Email</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            {/* Table Body */}
-            <tbody>
-              <tr>
-                <td>
-                  <label>
-                    <input type="checkbox" className="checkbox" />
-                  </label>
-                </td>
-                <td>{thumbnail || "N/A"}</td>
-                <td>{category || "N/A"}</td>
-                <td>{email || "N/A"}</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-         {/* Buttons Section */}
-         <div className="flex justify-end gap-4">
-          <Link to="/add-post" className="btn btn-ghost" onClick={closeModal}>
-            Cancel
-          </Link>
-          <button className="btn btn-primary" onClick={handleSubmit}>
-            Request
-          </button>
-        </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4">
+      <div className="bg-white p-6 sm:p-8 md:p-10 rounded-lg w-full max-w-lg md:max-w-2xl lg:max-w-3xl shadow-lg overflow-y-auto max-h-[90vh]">
+        <h2 className="text-2xl font-bold mb-6 text-center">Be a Volunteer</h2>
+        <form onSubmit={handleVolunteerSubmit}>
+          <div className="mb-4">
+            <label className="block font-medium">Thumbnail:</label>
+            <input
+              type="text"
+              value={thumbnail}
+              readOnly
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium">Post Title:</label>
+            <input
+              type="text"
+              value={title}
+              readOnly
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium">Description:</label>
+            <textarea
+              value={description}
+              readOnly
+              className="w-full p-2 border rounded"
+            ></textarea>
+          </div>
+          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Category:</label>
+              <input
+                type="text"
+                value={category}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Location:</label>
+              <input
+                type="text"
+                value={location}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
+          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Volunteers Needed:</label>
+              <input
+                type="text"
+                value={volunteersNeeded}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Deadline:</label>
+              <input
+                type="text"
+                value={deadline}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
+          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block font-medium">Organizer Name:</label>
+              <input
+                type="text"
+                value={organizerName}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block font-medium">Organizer Email:</label>
+              <input
+                type="text"
+                value={organizerEmail}
+                readOnly
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium">Your Suggestion:</label>
+            <textarea
+              name="suggestion"
+              placeholder="Enter your suggestion"
+              className="w-full p-2 border rounded"
+            ></textarea>
+          </div>
+          <div className="flex justify-end space-x-2">
+            <button
+              type="submit"
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            >
+              Request
+            </button>
+            <button
+              type="button"
+              className="bg-gray-300 px-4 py-2 ml-2 rounded hover:bg-gray-400"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default BeAVolunteerModal;
-
-
-// const BeAVolunteerModal = ({ closeModal, post, user }) => {
-//   // Destructure post fields
-//   const {
-//     thumbnail,
-//     post_title,
-//     description,
-//     category,
-//     location,
-//     volunteersNeeded,
-//     deadline,
-//     organizerName,
-//     organizerEmail,
-//   } = post || {};
-
-//   // Destructure user fields
-//   const { name, email } = user || {};
-
-//   // Prepare requestData object for submission
-//   const requestData = {
-//     thumbnail,
-//     postTitle: post_title,
-//     description,
-//     category,
-//     location,
-//     volunteersNeeded,
-//     organizer: {
-//       name: organizerName,
-//       email: organizerEmail,
-//     },
-//     volunteer: {
-//       name,
-//       email,
-//     },
-//   };
-
-//   // Handle Submit
-//   const handleSubmit = () => {
-//     fetch(`http://localhost:9000/volunteer-needs-application/${post._id}`, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(requestData),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log('Request successful:', data);
-//         closeModal(); // Close the modal on success
-//       })
-//       .catch((error) => {
-//         console.error('Request failed:', error);
-//       });
-//   };
-
-//   return (
-//     <div className="modal modal-open">
-//       <div className="modal-box">
-//         <h3 className="text-lg font-bold">Be a Volunteer</h3>
-
-//         {/* Volunteer Post Details */}
-//         <div className="grid gap-4 mb-6">
-//           <img src={thumbnail} alt={post_title} className="w-full rounded mb-4" />
-//           <p><strong>Post Title:</strong> {post_title}</p>
-//           <p><strong>Description:</strong> {description}</p>
-//           <p><strong>Category:</strong> {category}</p>
-//           <p><strong>Location:</strong> {location}</p>
-//           <p><strong>Volunteers Needed:</strong> {volunteersNeeded}</p>
-//           <p><strong>Deadline:</strong> {new Date(deadline).toLocaleString()}</p>
-//           <p>
-//             <strong>Organizer:</strong> {organizerName} ({organizerEmail})
-//           </p>
-//           <p><strong>Volunteer Name:</strong> {name || "N/A"}</p>
-//           <p><strong>Volunteer Email:</strong> {email || "N/A"}</p>
-//         </div>
-
-//         {/* Volunteer Table Section */}
-//         <div className="overflow-x-auto mb-6">
-//           <table className="table w-full">
-//             {/* Table Head */}
-//             <thead>
-//               <tr>
-//                 <th>#</th>
-//                 <th>Thumbnail</th>
-//                 <th>Category</th>
-//                 <th>Volunteer Email</th>
-//               </tr>
-//             </thead>
-//             {/* Table Body */}
-//             <tbody>
-//               <tr>
-//                 <td>1</td>
-//                 <td>
-//                   <img src={thumbnail} alt="Volunteer Thumbnail" className="w-12 h-12 rounded" />
-//                 </td>
-//                 <td>{category || "N/A"}</td>
-//                 <td>{email || "N/A"}</td>
-//               </tr>
-//             </tbody>
-//           </table>
-//         </div>
-
-//         {/* Buttons Section */}
-//         <div className="flex justify-end gap-4">
-//           <Link to="/add-post" className="btn btn-ghost" onClick={closeModal}>
-//             Cancel
-//           </Link>
-//           <button className="btn btn-primary" onClick={handleSubmit}>
-//             Request
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BeAVolunteerModal;
+export default BeVolunteerModal;
