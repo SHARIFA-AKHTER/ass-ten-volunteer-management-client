@@ -16,17 +16,13 @@ const navigate = useNavigate();
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Volunteer Needs Now</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {volunteerNeeds.map((post) => (
           <VolunteerNeedsNowCard key={post._id} post={post} />
         ))}
       </div>
       <div className="text-center mt-6">
-        {/* <Link to="/all-volunteer-posts">
-          <button className="btn btn-secondary px-8 py-3 text-white hover:bg-secondary-focus transition-all">
-            See All
-          </button>
-        </Link> */}
+       
          <button
         onClick={() => navigate('/all-volunteer-posts')}
         className="mt-6 px-6 py-3 bg-gray-800 text-white rounded hover:bg-gray-900"
