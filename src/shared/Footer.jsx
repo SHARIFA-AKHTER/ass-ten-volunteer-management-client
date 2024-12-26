@@ -1,10 +1,20 @@
 
+import logo from "../../src/assets/images/footer-logo.png";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-8 mt-12">
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
         {/* About Section */}
-        <div>
+        <div className="text-center sm:text-left">
+          {/* Logo */}
+          <div className="mb-4">
+            <img
+              src={logo}
+              alt="Volunteer Connect Logo"
+              className="mx-auto sm:mx-0 h-12 w-auto"
+            />
+          </div>
           <h3 className="text-lg font-bold mb-4">About Us</h3>
           <p className="text-sm leading-relaxed">
             We connect volunteers with impactful causes. Join us to make a
@@ -13,7 +23,7 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="text-center sm:text-left">
           <h3 className="text-lg font-bold mb-4">Quick Links</h3>
           <ul className="text-sm space-y-2">
             <li>
@@ -45,7 +55,7 @@ const Footer = () => {
         </div>
 
         {/* Contact Us */}
-        <div>
+        <div className="text-center sm:text-left">
           <h3 className="text-lg font-bold mb-4">Contact Us</h3>
           <ul className="text-sm space-y-2">
             <li>
@@ -59,10 +69,7 @@ const Footer = () => {
             </li>
             <li>
               Phone:{" "}
-              <a
-                href="tel:+1234567890"
-                className="hover:text-gray-400"
-              >
+              <a href="tel:+1234567890" className="hover:text-gray-400">
                 +1 (234) 567-890
               </a>
             </li>

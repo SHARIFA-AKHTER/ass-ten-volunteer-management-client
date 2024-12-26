@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import the datepicker CSS
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 
 const UpdatePost = () => {
@@ -25,7 +23,7 @@ const UpdatePost = () => {
 
   // Fetch the post details
   useEffect(() => {
-    fetch(`http://localhost:9000/volunteer-needs/${id}`)
+    fetch(`http://localhost:9000/volunteer/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch post details");
@@ -62,7 +60,7 @@ const UpdatePost = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:9000/volunteer-needs/${id}`, {
+    fetch(`http://localhost:9000/volunteer/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -77,23 +75,22 @@ const UpdatePost = () => {
       })
       .then(() => {
         Swal.fire({
-            title: "Success!",
-            text: "Post updated successfully!",
-            icon: "success",
-            confirmButtonText: "OK",
-          }).then(() => {
-            navigate("/manage-posts"); // Redirect after confirmation
-          });
-        })
-        .catch((error) => {
-          console.error("Error updating post:", error);
-          Swal.fire({
-            title: "Error!",
-            text: "Failed to update the post. Please try again.",
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-       
+          title: "Success!",
+          text: "Post updated successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/manage-posts");
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to update the post. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
 
@@ -103,8 +100,8 @@ const UpdatePost = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Update Volunteer Need Post</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h2 className="text-2xl font-bold mb-6 text-center">Update Volunteer Need Post</h2>
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto">
         <div>
           <label htmlFor="thumbnail" className="block font-semibold">
             Thumbnail
@@ -224,7 +221,10 @@ const UpdatePost = () => {
             className="input input-bordered w-full bg-gray-200"
           />
         </div>
-        <button type="submit" className="btn btn-primary w-full">
+        <button
+          type="submit"
+          className="btn btn-primary w-full py-3 text-lg"
+        >
           Update Post
         </button>
       </form>

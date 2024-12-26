@@ -10,7 +10,6 @@ import AllVolunteerPosts from './../components/AllVolunteerPosts';
 import VolunteerNeedPostDetails from './../Pages/VolunteerNeedPostDetails';
 import PrivateRoute from './PrivateRoute';
 import BeAVolunteerModal from "../Pages/BeAVolunteerModal";
-import ManagePosts from "../Pages/ManagePosts";
 import ManageMyPost from "../Pages/ManageMyPost";
 import UpdatePost from "../Pages/UpdatePost";
 import NotFound from "../components/NotFound";
@@ -52,10 +51,7 @@ import NotFound from "../components/NotFound";
         path:'/volunteer-request',
         element:<BeAVolunteerModal></BeAVolunteerModal>
        },
-      //  {
-      //   path:'/manage-posts',
-      //   element:<PrivateRoute><ManagePosts></ManagePosts></PrivateRoute>
-      //  }
+     
        {
         path:'/manage-posts',
         element:<PrivateRoute><ManageMyPost></ManageMyPost></PrivateRoute>

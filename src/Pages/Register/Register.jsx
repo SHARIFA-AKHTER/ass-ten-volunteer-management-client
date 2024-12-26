@@ -14,7 +14,8 @@ const Register = () => {
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
-    const photoURL = form.photoURL.value || "https://i.ibb.co.com/1dr4h4P/logo-volumnteer.png"; 
+    const photoURL =
+      form.photoURL.value || "https://i.ibb.co.com/1dr4h4P/logo-volumnteer.png";
     const password = form.password.value;
 
     // Password Validation
@@ -51,91 +52,94 @@ const Register = () => {
   };
 
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <h1 className="ml-8 mt-4 text-5xl font-bold">Register now!</h1>
-          <form onSubmit={handleRegister} className="card-body">
-            {/* Name */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Name</span>
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                className="input input-bordered"
-                required
-              />
-            </div>
-
-            {/* Email */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                className="input input-bordered"
-                required
-              />
-            </div>
-
-            {/* Photo URL */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Photo URL</span>
-              </label>
-              <input
-                type="url"
-                name="photoURL"
-                placeholder="Profile Photo URL"
-                className="input input-bordered"
-              />
-            </div>
-
-            {/* Password */}
-            <div className="form-control relative">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                className={`input input-bordered ${
-                  error ? "border-red-500" : ""
-                }`}
-                required
-              />
-              <button
-                type="button"
-                className="absolute right-3 top-10 text-gray-500"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-
-            {/* Submit Button */}
-            <div className="form-control mt-6">
-              <button className="btn btn-primary">Register</button>
-            </div>
-          </form>
-
-          {/* Redirect to Login */}
-          <div className="text-center mt-4">
-            <p>
-              Already have an account?{" "}
-              <Link to="/login" className="text-blue-500 hover:underline">
-                Login here
-              </Link>
-            </p>
+    <div className="flex items-center justify-center min-h-screen bg-base-200 px-4">
+      <div className="w-full max-w-xl bg-base-100 shadow-lg rounded-lg">
+        <h1 className="text-3xl lg:text-4xl font-bold text-center mt-6">
+          Register Now!
+        </h1>
+        <form
+          onSubmit={handleRegister}
+          className="card-body space-y-4 px-6 lg:px-8"
+        >
+          {/* Name */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              className="input input-bordered"
+              required
+            />
           </div>
+
+          {/* Email */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              className="input input-bordered"
+              required
+            />
+          </div>
+
+          {/* Photo URL */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Photo URL</span>
+            </label>
+            <input
+              type="url"
+              name="photoURL"
+              placeholder="Profile Photo URL"
+              className="input input-bordered"
+            />
+          </div>
+
+          {/* Password */}
+          <div className="form-control relative">
+            <label className="label">
+              <span className="label-text">Password</span>
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className={`input input-bordered ${
+                error ? "border-red-500" : ""
+              }`}
+              required
+            />
+            <button
+              type="button"
+              className="absolute right-3 top-10 text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          {/* Submit Button */}
+          <div className="form-control mt-6">
+            <button className="btn btn-primary w-full">Register</button>
+          </div>
+        </form>
+
+        {/* Redirect to Login */}
+        <div className="text-center mb-6">
+          <p>
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-500 hover:underline">
+              Login here
+            </Link>
+          </p>
         </div>
       </div>
     </div>

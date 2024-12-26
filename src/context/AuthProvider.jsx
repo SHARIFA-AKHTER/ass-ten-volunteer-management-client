@@ -3,12 +3,13 @@ import AuthContext from './AuthContext';
 import auth from './../firebase/firebase.init';
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  
   GoogleAuthProvider,
   signOut,
   updateProfile,
   signInWithPopup,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 
