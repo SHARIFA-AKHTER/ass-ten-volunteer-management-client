@@ -36,7 +36,7 @@ import NotFound from "../components/NotFound";
       
         {
           path:'/add-post',
-          element:<AddVolunteerPost></AddVolunteerPost>
+          element:<PrivateRoute><AddVolunteerPost></AddVolunteerPost></PrivateRoute>
          },
          {
           path:'/all-volunteer-posts',

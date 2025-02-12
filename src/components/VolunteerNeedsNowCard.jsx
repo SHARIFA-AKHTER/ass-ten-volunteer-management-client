@@ -29,7 +29,8 @@ const VolunteerNeedsNowCard = ({ post }) => {
         </div>
         <div className="card-actions justify-center sm:justify-end">
           <Link to={`/volunteer-needs-now/${_id}`}>
-            <button className="btn btn-primary px-6 py-2 text-sm md:text-base text-white hover:bg-primary-focus transition-all rounded-md">
+            <button className="btn btn-primary px-6 py-2 text-sm md:text-base
+             text-white hover:bg-primary-focus transition-all rounded-md">
               View Details
             </button>
           </Link>

@@ -53,7 +53,6 @@ const AddVolunteerPost = () => {
           deadline: new Date(),
         });  
         
-        navigate('/volunteer-request')
        
       } else {
         Swal.fire('Error!', 'Failed to add volunteer post.', 'error');

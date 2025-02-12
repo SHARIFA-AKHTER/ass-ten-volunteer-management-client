@@ -2,7 +2,6 @@ import React from 'react';
 import BannerSlider from '../components/BannerSlider';
 import VolunteerNeedsNow from '../components/VolunteerNeedsNow';
 import AllVolunteerPosts from '../components/AllVolunteerPosts';
-import SearchBar from './SearchBar';
 import UpcomingEvents from '../components/UpcomingEvents';
 import SuccessStories from '../components/SuccessStories';
 

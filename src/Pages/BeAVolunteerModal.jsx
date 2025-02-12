@@ -1,163 +1,81 @@
 
-const BeVolunteerModal = ({ closeModal, post, user }) => {
-  const {
-    thumbnail,
-    title,
-    description,
-    category,
-    location,
-    volunteersNeeded,
-    deadline,
-    organizerName,
-    organizerEmail,
-  } = post;
 
-  const handleVolunteerSubmit = (e) => {
-    e.preventDefault();
+import { useState } from "react";
 
-    const suggestion = e.target.suggestion.value;
+const BeVolunteerModal = ({ post, closeModal }) => {
+    const [suggestion, setSuggestion] = useState("");
 
-    const volunteerData = {
-      postId: post.id, 
-      volunteerName: user?.name || "Logged-in User Name", // Replace with actual user data
-      volunteerEmail: user?.email || "Logged-in User Email", // Replace with actual user data
-      suggestion,
-      status: "Requested",
+    const handleRequest = () => {
+        const volunteerData = {
+            postId: post._id, 
+            postTitle: post.title,
+            postDescription: post.description,
+            category: post.category,
+            location: post.location,
+            thumbnail: post.thumbnail,
+            volunteersNeeded: post.volunteersNeeded,
+            deadline: post.deadline,
+            organizerName: post.organizerName,
+            organizerEmail: post.organizerEmail,
+            suggestion: suggestion,
+            status: "requested",
+        };
+
+        // Send Data to Database
+        fetch(`http://localhost:9000/volunteer-needs-now/${post._id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(volunteerData)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Volunteer Request Submitted:", data);
+            alert("Request Submitted Successfully!");
+            closeModal();
+        })
+        .catch(err => console.error("Error submitting request:", err));
     };
 
-    // Save the volunteer request to the database
-    fetch(`http://localhost:9000/volunteer-needs-application/${post._id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(volunteerData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        alert("Your volunteer request has been submitted!");
-        closeModal();
-      });
-  };
+    return (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg w-96">
+                <h2 className="text-xl font-bold mb-4">Be a Volunteer</h2>
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center px-4">
-      <div className="bg-white p-6 sm:p-8 md:p-10 rounded-lg w-full max-w-lg md:max-w-2xl lg:max-w-3xl shadow-lg overflow-y-auto max-h-[90vh]">
-        <h2 className="text-2xl font-bold mb-6 text-center">Be a Volunteer</h2>
-        <form onSubmit={handleVolunteerSubmit}>
-          <div className="mb-4">
-            <label className="block font-medium">Thumbnail:</label>
-            <input
-              type="text"
-              value={thumbnail}
-              readOnly
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block font-medium">Post Title:</label>
-            <input
-              type="text"
-              value={title}
-              readOnly
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block font-medium">Description:</label>
-            <textarea
-              value={description}
-              readOnly
-              className="w-full p-2 border rounded"
-            ></textarea>
-          </div>
-          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-medium">Category:</label>
-              <input
-                type="text"
-                value={category}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
+                {/* Read-Only Fields */}
+                <p><strong>Title:</strong> {post.title}</p>
+                <p><strong>Category:</strong> {post.category}</p>
+                <p><strong>Location:</strong> {post.location}</p>
+                <p><strong>Volunteers Needed:</strong> {post.volunteersNeeded}</p>
+                <p><strong>Deadline:</strong> {post.deadline}</p>
+                <p><strong>Organizer:</strong> {post.organizerName} ({post.organizerEmail})</p>
+                {/* Suggestion Field */}
+                <label className="block mt-4">Suggestion (Optional)</label>
+                <textarea
+                    className="w-full border p-2"
+                    value={suggestion}
+                    onChange={(e) => setSuggestion(e.target.value)}
+                ></textarea>
+
+                {/* Request Button */}
+                <button
+                    onClick={handleRequest}
+                    className="mt-4 bg-green-500 text-white px-4 py-2 rounded w-full"
+                >
+                    Request
+                </button>
+
+                {/* Close Button */}
+                <button
+                    onClick={closeModal}
+                    className="mt-2 bg-gray-500 text-white px-4 py-2 rounded w-full"
+                >
+                    Cancel
+                </button>
             </div>
-            <div>
-              <label className="block font-medium">Location:</label>
-              <input
-                type="text"
-                value={location}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
-            </div>
-          </div>
-          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-medium">Volunteers Needed:</label>
-              <input
-                type="text"
-                value={volunteersNeeded}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block font-medium">Deadline:</label>
-              <input
-                type="text"
-                value={deadline}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
-            </div>
-          </div>
-          <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-medium">Organizer Name:</label>
-              <input
-                type="text"
-                value={organizerName}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block font-medium">Organizer Email:</label>
-              <input
-                type="text"
-                value={organizerEmail}
-                readOnly
-                className="w-full p-2 border rounded"
-              />
-            </div>
-          </div>
-          <div className="mb-4">
-            <label className="block font-medium">Your Suggestion:</label>
-            <textarea
-              name="suggestion"
-              placeholder="Enter your suggestion"
-              className="w-full p-2 border rounded"
-            ></textarea>
-          </div>
-          <div className="flex justify-end space-x-2">
-            <button
-              type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-            >
-              Request
-            </button>
-            <button
-              type="button"
-              className="bg-gray-300 px-4 py-2 ml-2 rounded hover:bg-gray-400"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default BeVolunteerModal;

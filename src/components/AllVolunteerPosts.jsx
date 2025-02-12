@@ -1,46 +1,47 @@
 
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const AllVolunteerPosts = () => {
-  const [posts, setAllPosts] = useState([]); 
-  const [searchQuery, setSearchQuery] = useState(""); 
-  const [filteredPosts, setFilteredPosts] = useState([]); 
+  const [posts, setAllPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
     // Fetching all posts from the backend
     fetch("http://localhost:9000/all-volunteer-posts")
       .then((response) => response.json())
       .then((data) => {
-        setAllPosts(data); 
-        setFilteredPosts(data); 
+        setAllPosts(data);
+        setFilteredPosts(data);
       })
       .catch((error) => console.error("Error fetching all posts:", error));
   }, []);
 
   // Function to handle search input changes
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value); 
+    setSearchQuery(e.target.value);
   };
 
   // Function to filter posts based on search query
   const filterPosts = () => {
-    
+
     if (posts.length === 0) return;
 
     if (searchQuery === "") {
-      setFilteredPosts(posts); 
+      setFilteredPosts(posts);
     } else {
-    
+
       const filtered = posts.filter((post) =>
         post.post_title?.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredPosts(filtered); 
+      setFilteredPosts(filtered);
     }
   };
 
   useEffect(() => {
-    filterPosts(); 
-  }, [searchQuery, posts]); 
+    filterPosts();
+  }, [searchQuery, posts]);
 
   return (
     <div className="container mx-auto px-4 my-8">
@@ -53,7 +54,7 @@ const AllVolunteerPosts = () => {
         <input
           type="text"
           value={searchQuery}
-          onChange={handleSearchChange} 
+          onChange={handleSearchChange}
           placeholder="Search by post title"
           className="border p-2 rounded w-full sm:w-2/3 lg:w-1/2"
         />
@@ -81,12 +82,21 @@ const AllVolunteerPosts = () => {
               <p className="text-sm text-gray-500 text-center sm:text-left">
                 Deadline: {post.deadline}
               </p>
+              <Link to={`/volunteer-needs-now/${post._id}`}>
+                <button className="btn btn-primary w-full sm:w-auto px-4 sm:px-6 py-2 
+                text-xs sm:text-sm md:text-base 
+               text-white hover:bg-primary-focus transition-all rounded-md">
+                  View Details
+                </button>
+              </Link>
+
             </div>
           ))
         ) : (
           <p className="text-center text-gray-500">No posts found.</p>
         )}
       </div>
+
     </div>
   );
 };

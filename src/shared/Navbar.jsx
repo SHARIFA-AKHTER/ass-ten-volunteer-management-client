@@ -92,7 +92,7 @@ const Navbar = () => {
 
               <ul
                 tabIndex={0}
-                className="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 absolute top-full left-0 z-10"
               >
                 <li>
                   <Link to="/add-post" className="justify-between">
@@ -102,9 +102,7 @@ const Navbar = () => {
                 <li>
                   <Link to="/manage-posts">Manage My Posts</Link>
                 </li>
-                <li>
-                  <Link to="/my-profile">My Profile</Link>
-                </li>
+                
                 <li className="mt-2">
                   <button
                     onClick={logOut}
