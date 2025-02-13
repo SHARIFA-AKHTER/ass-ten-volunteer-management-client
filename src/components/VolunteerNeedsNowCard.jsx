@@ -12,7 +12,7 @@ const VolunteerNeedsNowCard = ({ post }) => {
         <img
           src={thumbnail}
           alt="volunteer"
-          className="rounded-t-lg object-cover w-full h-48 sm:h-56 md:h-64 lg:h-72" // Responsive height
+          className="rounded-t-lg object-cover w-full h-48 sm:h-56 md:h-64 lg:h-72"  
         />
       </figure>
       <div className="card-body p-4">

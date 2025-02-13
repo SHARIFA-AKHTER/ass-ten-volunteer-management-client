@@ -1,4 +1,5 @@
 
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -9,13 +10,20 @@ const AllVolunteerPosts = () => {
 
   useEffect(() => {
     // Fetching all posts from the backend
-    fetch("http://localhost:9000/all-volunteer-posts")
-      .then((response) => response.json())
-      .then((data) => {
-        setAllPosts(data);
-        setFilteredPosts(data);
-      })
-      .catch((error) => console.error("Error fetching all posts:", error));
+    // fetch("http://localhost:9000/all-volunteer-posts")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setAllPosts(data);
+    //     setFilteredPosts(data);
+    //   })
+    //   .catch((error) => console.error("Error fetching all posts:", error));
+    axios.get(`http://localhost:9000/all-volunteer-posts`, { withCredentials: true })
+    .then(res => {
+      console.log("Fetched Data:", res.data); 
+      setAllPosts(res.data);
+    })
+    .catch(error => console.error("Error fetching all posts:", error));
+ 
   }, []);
 
   // Function to handle search input changes

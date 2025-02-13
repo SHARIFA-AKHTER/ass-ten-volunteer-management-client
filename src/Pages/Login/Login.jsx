@@ -2,6 +2,7 @@ import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,8 +46,13 @@ const Login = () => {
 
     try {
       // User Login
-      await signIn(email, password);
-
+      // await signIn(email, password);
+      const result = await signIn(email, password);
+        const user = {email: email}
+        await axios.post('http://localhost:9000/jwt', user,{withCredentials: true})
+        .then(res =>{
+          console.log(res.data)
+        })
       // SweetAlert2 success notification
       Swal.fire({
         icon: "success",

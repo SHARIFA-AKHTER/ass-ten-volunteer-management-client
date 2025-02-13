@@ -1,72 +1,15 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import BeAVolunteerModal from './BeAVolunteerModal';
-
-// const VolunteerNeedPostDetails = () => {
-//   const { id } = useParams();
-//   console.log("Volunteer Post ID:", id);
-//   const [post, setPost] = useState(null);
-//   const [modalOpen, setModalOpen] = useState(false);
-//   const navigate = useNavigate();  
-//   useEffect(() => {
-//     fetch(`http://localhost:9000/volunteer-needs-now/${id}`)
-//       .then((response) => response.json())
-//       .then((data) => setPost(data))
-//       .catch((error) => console.error('Error fetching post details:', error));
-//   }, [id]);
-
-//   if (!post) return <p>Loading...</p>;
-
-//   // Handle modal close and navigate to the next page
-  
-//   const handleCloseModal = () => {
-//     setModalOpen(false);
-//     navigate('/login');  
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-3xl font-bold mb-4">{post.post_title}</h1>
-//       <img src={post.thumbnail} alt={post.post_title} className="mb-4 w-full rounded" />
-//       <p className="text-lg font-medium">Category: {post.category}</p>
-//       <p className="text-lg">Deadline: {new Date(post.deadline).toLocaleString()}</p>
-    
-//       {/* Be a Volunteer Button */}
-      
-//       <button
-//         className="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600"
-//         onClick={() => setModalOpen(true)}
-//       >
-//         Be a Volunteer
-//       </button>
-
-//       {/* Modal */}
-//       {modalOpen && (
-//         <BeAVolunteerModal
-//           post={post.post_title}
-//           closeModal={handleCloseModal}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default VolunteerNeedPostDetails;
 
 import { useParams } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import BeAVolunteerModal from "./BeAVolunteerModal";
-// import { AuthContext } from "../providers/AuthProvider";
-
 
 const VolunteerNeedPostDetails = () => {
-    const { id } = useParams(); // Get post ID from URL
-    // const { user } = useContext(AuthContext);
+    const { id } = useParams(); 
     const [post, setPost] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:9000/volunteer-needs-now/${id}`) // Replace with your API
+        fetch(`http://localhost:9000/volunteer-needs-now/${id}`) 
             .then(res => res.json())
             .then(data => setPost(data))
             .catch(err => console.error("Error fetching post:", err));
